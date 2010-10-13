@@ -1,4 +1,5 @@
-require "#{File.expand_path(File.dirname(__FILE__))}/helper"
+require 'rspec_ext'
+require "#{__FILE__.dirname}/helper"
 
 require "mongo_mapper_ext"
 require "mongo_mapper_ext/spec/helper"

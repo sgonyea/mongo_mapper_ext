@@ -1,8 +1,7 @@
-dir = File.expand_path(File.dirname(__FILE__))
-lib_dir = File.expand_path("#{dir}/../../../lib")
+lib_dir = "#{__FILE__.parent_dirname}/lib"
 $LOAD_PATH << lib_dir unless $LOAD_PATH.include? lib_dir
 
-require 'spec_ext'
 gem 'mongo_mapper', '>=0.8'
 require "mongo_mapper"
+
 require 'ruby_ext'
