@@ -1,5 +1,4 @@
-require 'rspec_ext'
-require "#{__FILE__.dirname}/helper"
+require 'spec_helper'
 
 require "mongo_mapper_ext/micelaneous"
 require "mongo_mapper_ext/plugins/micelaneous"

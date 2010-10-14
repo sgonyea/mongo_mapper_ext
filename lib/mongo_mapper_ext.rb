@@ -1,6 +1,6 @@
-gem 'mongo_mapper', '>=0.8'
-require 'mongo_mapper'
+require 'mongo_mapper_ext/gems'
 
+require 'mongo_mapper'
 
 [
   'hacks/fixes',
