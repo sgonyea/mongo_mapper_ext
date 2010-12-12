@@ -27,7 +27,7 @@ end
 # 
 # Clear db before each test
 # 
-RSpec::Core::ExampleGroup.class_eval do
+rspec do
   class << self
     def with_mongo_mapper
       before :each do

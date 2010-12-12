@@ -46,7 +46,7 @@ module MongoMapper
         
         protected
           def default_scope options = nil, &block          
-            options.must_be.a [NilClass, Hash]
+            options.must_be.a NilClass, Hash
             self.write_inheritable_attribute(:default_scope, (options || block))
           end
                   
