@@ -7,7 +7,7 @@ Mongo::Collection.class_eval do
     opt.must_be.a Hash
     opt.values.first.must_be.a Hash
     
-    update({:_id => id}, opt, {:upsert => true, :safe => true})
+    update({_id: id}, opt, {upsert: true, safe: true})
   end
 end
 
@@ -35,6 +35,13 @@ MongoMapper.class_eval do
         connection.logger = logger
       end
     end
+  end
+  
+  def self.use_database database_alias
+    database_alias = database_alias.to_s
+    MongoMapper.db_config.must.include database_alias 
+    MongoMapper.connection = MongoMapper.connections['accounts']
+    MongoMapper.database = MongoMapper.db_config['accounts']['name']
   end
 end
 

@@ -65,7 +65,7 @@ module MongoMapper::Migration
         
     def metadata db
       col = db.collection 'db_metadata'
-      metadata = (col.find_one || {:version => 0}).to_openobject
+      metadata = (col.find_one || {version: 0}).to_openobject
     end
     
     def definitions

@@ -5,7 +5,7 @@ module MongoMapper
       unless connection = super(database_alias)            
         MongoMapper.db_config.must.include database_alias
         db_options = MongoMapper.db_config[database_alias]        
-        connection = Mongo::Connection.new(db_options['host'], db_options['port'], :logger => MongoMapper.logger)
+        connection = Mongo::Connection.new(db_options['host'], db_options['port'], logger: MongoMapper.logger)
       
         if defined?(PhusionPassenger)
           PhusionPassenger.on_event(:starting_worker_process) do |forked|

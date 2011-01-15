@@ -12,7 +12,7 @@ namespace :db do
   
   remove_task 'db:migrate'
   desc "Migrate Database"
-  task :migrate => :environment do
+  task migrate: :environment do
     ::Migration = MongoMapper::Migration
     Dir["#{Rails.root}/lib/db/**/*.rb"].each{|f| require f.sub(/\.rb$/, '')}
     

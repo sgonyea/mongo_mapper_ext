@@ -16,12 +16,21 @@ module MongoMapper
       
       module ClassMethods
         # 
+        # model_name
+        # 
+        def model_name *args  
+          @model_name = args.first unless args.empty?
+          @model_name ||= name          
+        end
+        
+        
+        # 
         # Sequentiall :all for big collection
         # 
         def all_sequentially &block
           page, per_page = 1, 5
           begin
-            results = paginate(:page => page, :per_page => per_page, :order => '_id asc')
+            results = paginate(page: page, per_page: per_page, order: '_id asc')
             results.each{|o| block.call o}
             page += 1
           end until results.blank? or results.size < per_page
@@ -60,7 +69,7 @@ module MongoMapper
         
         # 
         # CounterCache
-        # belongs_to :item, :counter_cashe => true
+        # belongs_to :item, counter_cashe: true
         # 
         def belongs_to association_id, options={}, &extension          
           options.must_not.include :counter_cashe

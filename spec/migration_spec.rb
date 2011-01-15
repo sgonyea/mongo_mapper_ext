@@ -42,7 +42,7 @@ describe "MongoMapper Migration" do
     Sample.count.should == 0    
     Migration.define :global, 1 do |m|
       m.up do |db|
-        Sample.create :name => 'name'
+        Sample.create name: 'name'
         coll = db.collection 'samples'
         coll.find.count.should == 1
       end
@@ -55,7 +55,7 @@ describe "MongoMapper Migration" do
   it "increase_db_version" do
     Sample.count.should == 0
     Migration.define :global, 1 do |m|
-      m.up{Sample.create :name => 'name'}
+      m.up{Sample.create name: 'name'}
     end
   
     Migration.update(:global, 1).should be_true    
@@ -65,7 +65,7 @@ describe "MongoMapper Migration" do
   
   it "decrease_db_version" do    
     Migration.define :global, 1 do |m|
-      m.up{Sample.create :name => 'name'}
+      m.up{Sample.create name: 'name'}
       m.down{Sample.destroy_all}
     end
     Migration.update(:global, 1).should be_true

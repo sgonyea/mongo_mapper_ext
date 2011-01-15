@@ -17,8 +17,8 @@ describe "MongoMapper Default Scope" do
     end
     
     ScopeSample.delete_all
-    ScopeSample.create! :name => 'a'
-    ScopeSample.create! :name => 'b'
+    ScopeSample.create! name: 'a'
+    ScopeSample.create! name: 'b'
   end
   
   after :each do 
@@ -31,7 +31,7 @@ describe "MongoMapper Default Scope" do
   end
   
   it "default_scope" do
-    ScopeSample.send :default_scope, :name => 'a'
+    ScopeSample.send :default_scope, name: 'a'
     ScopeSample.count.should == 1
     ScopeSample.all.count.should == 1
     ScopeSample.first.name.should == 'a'
@@ -39,7 +39,7 @@ describe "MongoMapper Default Scope" do
   
   it "default_scope as block" do
     ScopeSample.send :default_scope do
-      {:name => 'a'}
+      {name: 'a'}
     end
     ScopeSample.count.should == 1
     ScopeSample.all.count.should == 1
@@ -47,12 +47,12 @@ describe "MongoMapper Default Scope" do
   end
   
   it "default_scope should be inherited" do    
-    ScopeSample.send :default_scope, :name => 'a'
+    ScopeSample.send :default_scope, name: 'a'
     class ScopeSampleAncestor < ScopeSample
     end
     
-    ScopeSampleAncestor.create! :name => 'a'
-    ScopeSampleAncestor.create! :name => 'b'
+    ScopeSampleAncestor.create! name: 'a'
+    ScopeSampleAncestor.create! name: 'b'
 
     ScopeSampleAncestor.count.should == 1
     ScopeSampleAncestor.all.count.should == 1
@@ -60,13 +60,13 @@ describe "MongoMapper Default Scope" do
   end
   
   it "ancestors should be able to override default_scope" do
-    ScopeSample.send :default_scope, :name => 'a'
+    ScopeSample.send :default_scope, name: 'a'
     class ScopeSampleAncestor2 < ScopeSample
-      default_scope :name => 'b'
+      default_scope name: 'b'
     end
     
-    ScopeSampleAncestor2.create! :name => 'a'
-    ScopeSampleAncestor2.create! :name => 'b'
+    ScopeSampleAncestor2.create! name: 'a'
+    ScopeSampleAncestor2.create! name: 'b'
         
     ScopeSampleAncestor2.count.should == 1
     ScopeSampleAncestor2.all.count.should == 1
@@ -88,10 +88,10 @@ describe "MongoMapper Default Scope" do
   end
       
   it "with_exclusive_scope should clear other scopes" do
-    ScopeSample.send :default_scope, :name => 'a'
+    ScopeSample.send :default_scope, name: 'a'
     
-    ScopeSample.with_scope :name => 'a' do
-      ScopeSample.with_exclusive_scope :name => 'b' do        
+    ScopeSample.with_scope name: 'a' do
+      ScopeSample.with_exclusive_scope name: 'b' do        
         ScopeSample.count.should == 1
         ScopeSample.first.name.should == 'b'
       end
@@ -99,7 +99,7 @@ describe "MongoMapper Default Scope" do
   end
   
   it "with_scope" do
-    ScopeSample.with_scope :name => 'a' do
+    ScopeSample.with_scope name: 'a' do
       ScopeSample.count.should == 1
       ScopeSample.first.name.should == 'a'
     end
@@ -109,13 +109,13 @@ describe "MongoMapper Default Scope" do
     ScopeSample.class_eval do
       key :name2, String
       key :name3, String
-      default_scope :name => 'a'
+      default_scope name: 'a'
     end
-    ScopeSample.create! :name => 'a', :name2 => 'a2', :name3 => 'a3'
-    ScopeSample.create! :name => 'b', :name2 => 'b2', :name3 => 'b3'
+    ScopeSample.create! name: 'a', name2: 'a2', name3: 'a3'
+    ScopeSample.create! name: 'b', name2: 'b2', name3: 'b3'
     
-    ScopeSample.with_scope :name2 => 'a2' do
-      ScopeSample.with_scope :name3 => 'a3' do
+    ScopeSample.with_scope name2: 'a2' do
+      ScopeSample.with_scope name3: 'a3' do
         ScopeSample.count.should == 1
         ScopeSample.first.name2.should == 'a2'
       end

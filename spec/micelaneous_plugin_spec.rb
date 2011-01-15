@@ -10,7 +10,7 @@ describe "MongoMapper Default Scope" do
       include MongoMapper::Document      
       plugin MongoMapper::Plugins::Micelaneous
       
-      key :comments_count, Integer, :default => 0
+      key :comments_count, Integer, default: 0
       has_many :comments
     end
     
@@ -19,7 +19,7 @@ describe "MongoMapper Default Scope" do
       plugin MongoMapper::Plugins::Micelaneous
       
       key :post_id
-      belongs_to :post, :counter_cache => true
+      belongs_to :post, counter_cache: true
     end
     
     MongoMapper.database = 'test'
@@ -52,5 +52,11 @@ describe "MongoMapper Default Scope" do
     comment.destroy    
     post.reload
     post.comments_count.should == 0
+  end
+  
+  it "model_name" do
+    Post.model_name.should == "Post"
+    Post.model_name "SuperPost"
+    Post.model_name.should == "SuperPost"
   end
 end
