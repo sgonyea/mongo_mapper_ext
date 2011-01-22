@@ -18,3 +18,22 @@ MongoMapper::Plugins::Associations::InArrayProxy.class_eval do
     reset
   end
 end
+
+#
+# Problem after destroying model the :to_param method returns :nill, 
+# and we can't use :to_param in view (for example in ajax to remove element with id from the screen).
+#
+module MongoMapper
+  module Plugins
+    module Rails
+      module InstanceMethods
+        # def to_param
+        #   id.to_s if persisted? # old realization
+        # end
+        def to_param
+          id.to_s
+        end
+      end
+    end
+  end
+end

@@ -74,13 +74,13 @@ describe "MongoMapper Default Scope" do
   end
   
   it "shouldn't allow to nest with_exclusive_scope" do
-    lambda{
+    -> {
       ScopeSample.with_exclusive_scope do
         ScopeSample.with_exclusive_scope{}
       end
     }.should raise_error(AssertionError)
     
-    lambda{
+    -> {
       ScopeSample.with_exclusive_scope do
         ScopeSample.with_scope{}
       end

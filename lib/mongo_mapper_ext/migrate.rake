@@ -14,7 +14,7 @@ namespace :db do
   desc "Migrate Database"
   task migrate: :environment do
     ::Migration = MongoMapper::Migration
-    Dir["#{Rails.root}/lib/db/**/*.rb"].each{|f| require f.sub(/\.rb$/, '')}
+    Dir["#{config.runtime_dir!}/lib/db/**/*.rb"].each{|f| require f.sub(/\.rb$/, '')}
     
     database_alias = ENV['d'] || ENV['database']
     database_alias = 'accounts' if database_alias.blank?
