@@ -40,8 +40,8 @@ MongoMapper.class_eval do
   def self.use_database database_alias
     database_alias = database_alias.to_s
     MongoMapper.db_config.must.include database_alias 
-    MongoMapper.connection = MongoMapper.connections['accounts']
-    MongoMapper.database = MongoMapper.db_config['accounts']['name']
+    MongoMapper.connection = MongoMapper.connections['default']
+    MongoMapper.database = MongoMapper.db_config['default']['name']
   end
 end
 

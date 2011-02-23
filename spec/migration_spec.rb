@@ -12,7 +12,7 @@ describe "MongoMapper Migration" do
     MongoMapper.logger = Logger.new(nil)
     MongoMapper.db_config = {
       'global' => {'name' => 'global_test'},
-      'accounts' => {'name' => "accounts_test"}
+      'default' => {'name' => "default_test"}
     }
     
     class ::Sample

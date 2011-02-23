@@ -17,7 +17,7 @@ namespace :db do
     Dir["#{config.runtime_dir!}/lib/db/**/*.rb"].each{|f| require f.sub(/\.rb$/, '')}
     
     database_alias = ENV['d'] || ENV['database']
-    database_alias = 'accounts' if database_alias.blank?
+    database_alias = 'default' if database_alias.blank?
     
     version = ENV['v'] || ENV['version']
     if version.blank?
