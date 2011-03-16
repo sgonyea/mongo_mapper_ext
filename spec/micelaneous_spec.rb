@@ -9,7 +9,7 @@ describe "MongoMapper micelaneous" do
     MongoMapper.database = 'test'
   end
   
-  before :each do
+  before do
     @db.collection('test').drop
     @coll = @db.collection('test')
   end
@@ -34,7 +34,7 @@ describe "MongoMapper micelaneous" do
       key :counter, Integer, default: 1
     end  
     
-    before :each do 
+    before do 
       @model = UpsertSample.create!
     end
   

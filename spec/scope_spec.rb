@@ -7,7 +7,7 @@ describe "MongoMapper Default Scope" do
     MongoMapper.database = 'test'
   end
   
-  before :each do 
+  before do 
     class ::ScopeSample
       include MongoMapper::Document
       plugin MongoMapper::Plugins::DefaultScope
@@ -21,7 +21,7 @@ describe "MongoMapper Default Scope" do
     ScopeSample.create! name: 'b'
   end
   
-  after :each do 
+  after do 
     Object.send :remove_const, :ScopeSample if Object.const_defined? :ScopeSample
   end
     

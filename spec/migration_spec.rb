@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 require "mongo_mapper_ext"
-require "mongo_mapper_ext/spec/helper"
+require "mongo_mapper_ext/spec"
 
 describe "MongoMapper Migration" do
   with_mongo_mapper
@@ -30,7 +30,7 @@ describe "MongoMapper Migration" do
     Object.send :remove_const, :Sample if Object.const_defined? :Sample    
   end
   
-  before :each do
+  before do
     Migration.definitions.clear
   end
   

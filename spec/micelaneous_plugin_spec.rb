@@ -31,7 +31,7 @@ describe "MongoMapper Default Scope" do
     end
   end
   
-  before :each do 
+  before do 
     [Post, Comment].every.delete_all
   end
     
