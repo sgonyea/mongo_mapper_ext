@@ -9,7 +9,7 @@ if defined?(Rails) and RAILS_ENV == 'development'
         t = Time.now
         send_message_without_time operation, message, log_message
       ensure
-        logger.debug("  MONGODB (#{Time.now - t}) #{log_message || message}") if logger
+        logger.debug("MONGODB (#{Time.now - t}) #{log_message || message}") if logger
         @logger = logger
       end
     end
@@ -22,7 +22,7 @@ if defined?(Rails) and RAILS_ENV == 'development'
         t = Time.now
         send_message_with_safe_check_without_time operation, message, db_name, log_message
       ensure
-        logger.debug("  MONGODB (#{Time.now - t}) #{log_message || message}") if logger
+        logger.debug("MONGODB (#{Time.now - t}) #{log_message || message}") if logger
         @logger = logger
       end
     end
@@ -35,7 +35,7 @@ if defined?(Rails) and RAILS_ENV == 'development'
         t = Time.now
         receive_message_without_time operation, message, log_message, socket
       ensure
-        logger.debug("  MONGODB (#{Time.now - t}) #{log_message || message}") if logger
+        logger.debug("MONGODB (#{Time.now - t}) #{log_message || message}") if logger
         @logger = logger
       end
     end
