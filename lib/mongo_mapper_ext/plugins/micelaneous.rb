@@ -21,7 +21,9 @@ module MongoMapper
             to_string:   -> v {v.join(', ')}
           },
           yaml: {
-            from_string: -> s {YAML.load s},
+            from_string: -> s {
+              {YAML.load s}rescue{{}}
+            },
             to_string:   -> v {              
               # MongoMapper uses it's internal Hash that doesn't support to_yaml
               hash = {}; v.each{|k, v| hash[k] = v}               
