@@ -20,10 +20,12 @@ module MongoMapper
             from_string: -> s {(s || "").split(',').collect{|s| s.strip}},
             to_string:   -> v {v.join(', ')}
           },
+          column: {
+            from_string: -> s {(s || "").split("\n").collect{|s| s.strip}},
+            to_string:   -> v {v.join("\n")}
+          },
           yaml: {
-            from_string: -> s {
-              {YAML.load s}rescue{{}}
-            },
+            from_string: -> s {YAML.load s rescue {}},
             to_string:   -> v {              
               # MongoMapper uses it's internal Hash that doesn't support to_yaml
               hash = {}; v.each{|k, v| hash[k] = v}               
@@ -31,8 +33,8 @@ module MongoMapper
             }
           },
           json: {
-            from_string: -> s {JSON.parse s},
-            to_string:   -> v {          
+            from_string: -> s {JSON.parse s rescue {}},
+            to_string:   -> v {
               # MongoMapper uses it's internal Hash that doesn't support to_yaml
               hash = {}; v.each{|k, v| hash[k] = v}               
               hash.to_json.strip
