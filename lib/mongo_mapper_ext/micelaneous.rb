@@ -2,12 +2,12 @@
 # upsert
 # 
 Mongo::Collection.class_eval do
-  def upsert id, opt
+  def upsert! query, opt
     opt.size.must == 1
     opt.must_be.a Hash
     opt.values.first.must_be.a Hash
     
-    update({_id: id}, opt, {upsert: true, safe: true})
+    update(query, opt, {upsert: true, safe: true})
   end
 end
 

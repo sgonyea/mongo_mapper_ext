@@ -20,13 +20,13 @@ describe "MongoMapper micelaneous" do
     
   it "upsert should update" do
     id = @coll.save count: 2
-    @coll.upsert id, :$inc => {count: 1}
+    @coll.upsert!({_id: id}, :$inc => {count: 1})
     @coll.find(_id: id).first['count'].should == 3
   end
   
   it "upsert should set" do
     id = @coll.save({})
-    @coll.upsert id, :$inc => {count: 1}
+    @coll.upsert!({_id: id}, :$inc => {count: 1})
     @coll.find(_id: id).first['count'].should == 1
   end
     
@@ -43,13 +43,13 @@ describe "MongoMapper micelaneous" do
     end
   
     it "class upsert" do
-      UpsertSample.upsert @model.id, :$inc => {counter: 1}
+      UpsertSample.upsert!({id: @model.id}, :$inc => {counter: 1})
       @model.reload
       @model.counter.should == 2
     end
   
     it "model upsert" do
-      @model.upsert :$inc => {counter: 1}
+      @model.upsert! :$inc => {counter: 1}
       @model.reload
       @model.counter.should == 2
     end

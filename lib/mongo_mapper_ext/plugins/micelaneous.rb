@@ -9,8 +9,8 @@ module MongoMapper
     module Micelaneous
       
       module InstanceMethods
-        def upsert *args
-          self.class.upsert id, *args
+        def upsert! *args
+          self.class.upsert!({id: id}, *args)
         end
       end
       
@@ -130,8 +130,9 @@ module MongoMapper
         # 
         # shortcut for upsert
         # 
-        def upsert *args
-          collection.upsert *args          
+        def upsert! query, *args
+          query[:_id] = query.delete :id if query.include? :id
+          collection.upsert! query, *args          
         end
         
         
@@ -151,12 +152,12 @@ module MongoMapper
             decrease_method_name = "decrease_#{cache_class.name.underscore}_#{name.pluralize.underscore}_counter"
             
             define_method increase_method_name do
-              cache_class.upsert self.send(association_key), :$inc => {cache_attribute => 1}
+              cache_class.upsert!({id: self.send(association_key)}, :$inc => {cache_attribute => 1})
             end
             protected increase_method_name            
             
             define_method decrease_method_name do
-              cache_class.upsert self.send(association_key), :$inc => {cache_attribute => -1}
+              cache_class.upsert!({id: self.send(association_key)}, :$inc => {cache_attribute => -1})
             end
             protected decrease_method_name
             

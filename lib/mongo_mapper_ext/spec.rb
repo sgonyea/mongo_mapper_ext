@@ -1,6 +1,15 @@
 require 'mongo_mapper_ext'
 
 # 
+# use_database stub
+# 
+module MongoMapper::Plugins::Micelaneous::ClassMethods
+  alias_method :_use_database, :use_database
+  def use_database database_alias; end
+end
+
+
+# 
 # Disabling indexes in testing environment
 # 
 if Object.const_defined?(:Rad)

@@ -17,7 +17,7 @@ describe "MongoMapper Migration" do
     
     class ::Sample
       include MongoMapper::Document
-      use_database :global
+      _use_database :global
 
       key :name, String
     end
