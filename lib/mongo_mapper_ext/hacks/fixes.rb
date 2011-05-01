@@ -37,3 +37,21 @@ module MongoMapper
     end
   end
 end
+
+
+# 
+# Use class alias instead of class name, because it causes foreign keys like 'models_account_id' instead of 'account_id' if
+# for models like Models::Account
+# 
+module MongoMapper
+  module Plugins
+    module Associations
+      class ManyDocumentsProxy
+          def foreign_key
+            # options[:foreign_key] || proxy_owner.class.name.to_s.underscore.gsub("/", "_") + "_id"
+            options[:foreign_key] || proxy_owner.class.alias.to_s.underscore.gsub("/", "_") + "_id"
+          end
+      end
+    end
+  end
+end
