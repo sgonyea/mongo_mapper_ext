@@ -87,10 +87,9 @@ module MongoMapper
         # 
         # model_name
         # 
-        warn 'change :name to :alias'
         def model_name *args
           if args.empty?
-            @model_name ||= ::ActiveModel::Name.new self, name
+            @model_name ||= ::ActiveModel::Name.new self, self.alias
           else
             @model_name = ::ActiveModel::Name.new self, args.first
           end          

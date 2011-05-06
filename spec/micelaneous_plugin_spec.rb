@@ -26,7 +26,7 @@ describe "MongoMapper Default Scope" do
   end
   
   after :all do
-    %w{Post Comment}.each do |obj_name|
+    %w{Post Comment Post2 Namespace}.each do |obj_name|
       Object.send :remove_const, obj_name if Object.const_defined? obj_name
     end
   end
@@ -54,9 +54,30 @@ describe "MongoMapper Default Scope" do
     post.comments_count.should == 0
   end
   
-  it "model_name" do
-    Post.model_name.should == "Post"
-    Post.model_name "SuperPost"
-    Post.model_name.should == "SuperPost"
+  describe "model_name" do
+    it "basic" do
+      Post.model_name.should == "Post"
+      Post.model_name "SuperPost"
+      Post.model_name.should == "SuperPost"
+    end
+    
+    it "by default should be initialized from class alias" do
+      class ::Post2
+        include MongoMapper::Document      
+        include MongoMapper::Plugins::Micelaneous
+
+        self.alias 'PostAlias'
+      end
+      
+      module ::Namespace
+        class Post
+          include MongoMapper::Document      
+          include MongoMapper::Plugins::Micelaneous
+        end
+      end
+      
+      Post2.model_name.should == 'PostAlias'
+      Namespace::Post.model_name.should == 'Post' # not the Namespace::Post
+    end
   end
 end
