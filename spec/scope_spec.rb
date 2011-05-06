@@ -10,7 +10,7 @@ describe "MongoMapper Default Scope" do
   before do 
     class ::ScopeSample
       include MongoMapper::Document
-      plugin MongoMapper::Plugins::DefaultScope
+      include MongoMapper::Plugins::DefaultScope
       
       key :name, String
       key :_type, String

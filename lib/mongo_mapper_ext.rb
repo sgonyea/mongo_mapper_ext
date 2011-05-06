@@ -1,18 +1,11 @@
 require 'mongo_mapper_ext/gems'
-
-
-
-
-
-
-
-
-
 require 'mongo_mapper'
 
 [
   'hacks/fixes',
   'hacks/time_measuring',
+  'hacks/active_model',
+  
   'migration',
   'mongo_mapper',
   'view_helpers',
@@ -27,14 +20,24 @@ require 'mongo_mapper'
   require "mongo_mapper_ext/#{file}"
 end
 
-module CommonPluginsAddition
-  def self.included(model)
-    model.plugin MongoMapper::Plugins::DefaultScope
-    # model.plugin MongoMapper::Plugins::DbConfig
-    model.plugin MongoMapper::Plugins::AttributesCache
-    model.plugin MongoMapper::Plugins::Micelaneous
-    
-    model.attr_protected :id, :_id, :_type, :created_at, :updated_at
-  end
+# module CommonPluginsAddition
+#   def self.included(model)
+#     model.plugin MongoMapper::Plugins::DefaultScope
+#     # model.plugin MongoMapper::Plugins::DbConfig
+#     model.plugin MongoMapper::Plugins::AttributesCache
+#     model.plugin MongoMapper::Plugins::Micelaneous
+#     
+#     model.attr_protected :id, :_id, :_type, :created_at, :updated_at
+#   end
+# end
+# MongoMapper::Document.append_inclusions(CommonPluginsAddition)
+
+
+MongoMapper::Document.plugin MongoMapper::Plugins::DefaultScope
+# MongoMapper::Document.plugin MongoMapper::Plugins::DbConfig
+MongoMapper::Document.plugin MongoMapper::Plugins::AttributesCache
+MongoMapper::Document.plugin MongoMapper::Plugins::Micelaneous
+  
+MongoMapper::Document.included do
+  attr_protected :id, :_id, :_type, :created_at, :updated_at
 end
-MongoMapper::Document.append_inclusions(CommonPluginsAddition)

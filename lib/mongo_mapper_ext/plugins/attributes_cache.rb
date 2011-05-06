@@ -1,6 +1,7 @@
 module MongoMapper
   module Plugins
     module AttributesCache
+      extend ActiveSupport::Concern
       
       module InstanceMethods
         def cache

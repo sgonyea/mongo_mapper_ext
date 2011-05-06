@@ -7,6 +7,7 @@ module MongoMapper
   
   module Plugins
     module Micelaneous
+      extend ActiveSupport::Concern
       
       module InstanceMethods
         def upsert! *args
@@ -86,9 +87,13 @@ module MongoMapper
         # 
         # model_name
         # 
-        def model_name *args  
-          @model_name = args.first unless args.empty?
-          @model_name ||= name          
+        warn 'change :name to :alias'
+        def model_name *args
+          if args.empty?
+            @model_name ||= ::ActiveModel::Name.new self, name
+          else
+            @model_name = ::ActiveModel::Name.new self, args.first
+          end          
         end
         
         

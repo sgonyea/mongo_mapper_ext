@@ -33,7 +33,7 @@ describe "MongoMapper micelaneous" do
   describe "handy upsert" do
     class ::UpsertSample
       include MongoMapper::Document
-      plugin MongoMapper::Plugins::Micelaneous
+      include MongoMapper::Plugins::Micelaneous
       
       key :counter, Integer, default: 1
     end  
@@ -89,7 +89,7 @@ describe "MongoMapper micelaneous" do
     it ":key extension" do
       class ::AsStringSample
         include MongoMapper::Document
-        plugin MongoMapper::Plugins::Micelaneous
+        include MongoMapper::Plugins::Micelaneous
         
         key :key, String, as_string: :test_convertor
         key :protected_key, String, as_string: :test_convertor, protected: true

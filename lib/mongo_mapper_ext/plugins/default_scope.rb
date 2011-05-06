@@ -1,6 +1,7 @@
 module MongoMapper
   module Plugins
     module DefaultScope
+      extend ActiveSupport::Concern
       
       module ClassMethods
         def query options = {}

@@ -8,7 +8,7 @@ describe "MongoMapper Default Scope" do
   before :all do
     class ::Post
       include MongoMapper::Document      
-      plugin MongoMapper::Plugins::Micelaneous
+      include MongoMapper::Plugins::Micelaneous
       
       key :comments_count, Integer, default: 0
       has_many :comments
@@ -16,7 +16,7 @@ describe "MongoMapper Default Scope" do
     
     class ::Comment
       include MongoMapper::Document
-      plugin MongoMapper::Plugins::Micelaneous
+      include MongoMapper::Plugins::Micelaneous
       
       key :post_id
       belongs_to :post, counter_cache: true
