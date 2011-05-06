@@ -10,7 +10,7 @@ describe "MongoMapper micelaneous" do
   end
   
   after :all do
-    remove_constants %w(UpsertSample AsStringSample)
+    remove_constants %w(UpsertSample AsStringSample TranslationCheck)
   end  
   
   before do
@@ -28,6 +28,23 @@ describe "MongoMapper micelaneous" do
     id = @coll.save({})
     @coll.upsert!({_id: id}, :$inc => {count: 1})
     @coll.find(_id: id).first['count'].should == 1
+  end
+  
+  describe "i18n" do
+    it "should translate error messages" do
+      class ::TranslationCheck
+        include MongoMapper::Document
+
+        key :name, String
+        validates_uniqueness_of :name
+      end
+
+      TranslationCheck.destroy_all
+      TranslationCheck.create! name: 'a'
+      t = TranslationCheck.new name: 'a'
+      t.should_not be_valid
+      t.errors[:name].first.should =~ /already been taken/
+    end
   end
     
   describe "handy upsert" do
