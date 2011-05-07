@@ -13,6 +13,10 @@ module MongoMapper
         def upsert! *args
           self.class.upsert!({id: id}, *args)
         end
+        
+        def exist?
+          self.class.find(id) != nil
+        end
       end
       
       module ClassMethods
