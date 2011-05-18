@@ -27,8 +27,8 @@
       m.down{Sample.destroy_all}
     end
     
-    # Tell it the version of database You need, and it's smart enough to figure out all needed :up or :down
-    Migration.update(:global, 1)
+    # Tell it database and version, and it's smart enough to figure out all needed :up or :down
+    Migration.update(:default, 1)
     
 
 ## Custom Scope
