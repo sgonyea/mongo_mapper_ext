@@ -1,9 +1,7 @@
 require 'spec_helper'
 
-require "mongo_mapper_ext/micelaneous"
-require "mongo_mapper_ext/plugins/micelaneous"
-
 describe "MongoMapper Default Scope" do
+  with_mongo_mapper
   
   before :all do
     class ::Post
@@ -21,20 +19,9 @@ describe "MongoMapper Default Scope" do
       key :post_id
       belongs_to :post, counter_cache: true
     end
-    
-    MongoMapper.database = 'test'
-  end
+  end  
+  after(:all){remove_constants %w{Post Comment Post2 Namespace}}
   
-  after :all do
-    %w{Post Comment Post2 Namespace}.each do |obj_name|
-      Object.send :remove_const, obj_name if Object.const_defined? obj_name
-    end
-  end
-  
-  before do 
-    [Post, Comment].every.delete_all
-  end
-    
   it "should increase count of comments" do
     post = Post.create!
     comment = post.comments.create!

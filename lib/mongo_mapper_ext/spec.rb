@@ -1,9 +1,9 @@
 require 'mongo_mapper_ext'
 
 # 
-# use_database stub
+# disabling :use_database, all tests will use the same :test database.
 # 
-module MongoMapper::Plugins::Micelaneous::ClassMethods
+module MongoMapper::Plugins::DbConfig::ClassMethods
   alias_method :_use_database, :use_database
   def use_database database_alias; end
 end
@@ -33,9 +33,17 @@ end
 # 
 rspec do
   def self.with_mongo_mapper
+    before :all do
+      MongoMapper.db_config = {
+        'default' => {'name' => "test"}
+      }
+      
+      MongoMapper.database = 'test'      
+    end
+    
     before do
       MongoMapper.db_config.each do |db_alias, opt|      
-        db = MongoMapper.databases[db_alias]
+        db = MongoMapper.databases[db_alias]    
         db.collection_names.each do |name|
           next if name =~ /^system\./
           db.collection(name).drop
@@ -60,17 +68,36 @@ end
 
 
 # 
-# Database
+# Files
 # 
 rspec do
-  def self.with_test_database
-    before :all do      
-      MongoMapper.db_config = {
-        # 'global' => {'name' => 'global_test'},
-        'default' => {'name' => "default_test"}
-      }
+  class << self
+    def with_files
+      path, cache_path = '/tmp/spec_fs', '/tmp/spec_fs_cache'
       
-      MongoMapper.database = 'default_test'      
-    end
+      before do
+        rad.config.merge!({fs: {path: path, cache_path: cache_path}}, override: true)
+        
+        Models::FileUploader.storage :file
+        
+        CarrierWave.configure do |config|          
+          config.storage = :file
+          config.enable_processing = false
+          
+          config.cache_dir = rad.config.fs.cache_path!
+          config.root = rad.config.fs.path!
+        end
+      end
+      
+      before do
+        path.to_dir.destroy
+        cache_path.to_dir.destroy
+      end
+      
+      after do
+        path.to_dir.destroy
+        cache_path.to_dir.destroy
+      end
+    end    
   end
 end

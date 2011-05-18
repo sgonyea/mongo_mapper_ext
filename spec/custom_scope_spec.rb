@@ -1,16 +1,12 @@
 require 'spec_helper'
 
-require "mongo_mapper_ext/plugins/default_scope"
-
 describe "MongoMapper Default Scope" do
-  before :all do
-    MongoMapper.database = 'test'
-  end
+  with_mongo_mapper
   
   before do 
     class ::ScopeSample
       include MongoMapper::Document
-      include MongoMapper::Plugins::DefaultScope
+      include MongoMapper::Plugins::CustomScope
       
       key :name, String
       key :_type, String
@@ -21,9 +17,7 @@ describe "MongoMapper Default Scope" do
     ScopeSample.create! name: 'b'
   end
   
-  after do 
-    Object.send :remove_const, :ScopeSample if Object.const_defined? :ScopeSample
-  end
+  after(:all){remove_constants :ScopeSample}
     
   it "should not affect objects without default_scope" do
     ScopeSample.count.should == 2

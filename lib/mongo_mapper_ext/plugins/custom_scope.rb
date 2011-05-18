@@ -1,6 +1,6 @@
 module MongoMapper
   module Plugins
-    module DefaultScope
+    module CustomScope
       extend ActiveSupport::Concern
       
       module ClassMethods

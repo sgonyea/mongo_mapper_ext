@@ -1,6 +1,6 @@
 module MongoMapper
   module Plugins
-    module AttributesCache
+    module AttributeCache
       extend ActiveSupport::Concern
       
       module InstanceMethods

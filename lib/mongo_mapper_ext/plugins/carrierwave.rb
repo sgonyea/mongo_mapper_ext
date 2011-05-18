@@ -53,19 +53,8 @@ module MongoMapper
             options[:mount_on] ||= "#{column}_filename"
             name = options[:mount_on]
             key name
-            
-            # # not allowin
-            # before_save do |model|
-            #   filename = model.send(name).filename
-            #   
-            # end
-            # rad.extension(:kit_carrierwave, self){validates_uniqueness_of name}
-            #             
-            # ensure_index name
           end
       end
     end
   end
 end
-
-MongoMapper::Document.include MongoMapper::Plugins::CarrierWave

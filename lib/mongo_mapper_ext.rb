@@ -1,39 +1,46 @@
 require 'mongo_mapper_ext/gems'
+
 require 'mongo_mapper'
 require 'carrierwave'
 
-[
-  'hacks/fixes',
-  'hacks/time_measuring',
-  'hacks/active_model',
+%w(
+  micelaneous
+).each{|file| require "mongo_db_ext/#{file}"}
+
+%w(
+  hacks/fixes
+  hacks/active_model
   
-  'migration',
-  'mongo_mapper',
-  'view_helpers',
-  'db_config',
-  'micelaneous',
+  migration
+  mongo_mapper
+  view_helpers  
+  logging
   
-  'plugins/default_scope',
-  # 'plugins/db_config',  
-  'plugins/attributes_cache',
-  'plugins/carrierwave',
-  'plugins/micelaneous',  
-].each do |file|
-  require "mongo_mapper_ext/#{file}"
-end
+  plugins/db_config
+  plugins/custom_scope
+  plugins/attribute_cache
+  plugins/carrierwave
+  plugins/attribute_convertors
+  plugins/micelaneous
+  plugins/belongs_to_with_counter_cache
+).each{|file| require "mongo_mapper_ext/#{file}"}
 
 # 
 # Default plugins and settings
 # 
-
-MongoMapper::Document.plugin MongoMapper::Plugins::DefaultScope
-# MongoMapper::Document.plugin MongoMapper::Plugins::DbConfig
-MongoMapper::Document.plugin MongoMapper::Plugins::AttributesCache
-MongoMapper::Document.plugin MongoMapper::Plugins::Micelaneous
+module MongoMapper::Plugins
+  [CustomScope, AttributeCache, AttributeConvertors, BelongsToWithCounterCache, Micelaneous, CarrierWave, DbConfig].each do |plugin|
+    ::MongoMapper::Document.send :include, plugin
+  end
+end
   
+# 
+# Attribute protection
+# 
 MongoMapper::Document.included do
   attr_protected :id, :_id, :_type, :created_at, :updated_at
 end
+
 
 # 
 # Locales

@@ -1,33 +1,27 @@
 require 'spec_helper'
 
-require "mongo_mapper_ext/micelaneous"
-require "mongo_mapper_ext/plugins/micelaneous"
-
 describe "MongoMapper micelaneous" do
-  before :all do
-    @db = Mongo::Connection.new.db('test')
-    MongoMapper.database = 'test'
-  end
+  with_mongo_mapper
   
-  after :all do
-    remove_constants %w(UpsertSample AsStringSample TranslationCheck)
-  end  
-  
-  before do
-    @db.collection('test').drop
-    @coll = @db.collection('test')
-  end    
+  after(:all){remove_constants %w(UpsertSample AsStringSample TranslationCheck)}    
     
-  it "upsert should update" do
-    id = @coll.save count: 2
-    @coll.upsert!({_id: id}, :$inc => {count: 1})
-    @coll.find(_id: id).first['count'].should == 3
-  end
+  describe "Collection extensions" do
+    before do
+      connection = Mongo::Connection.new.db('test')
+      @collection = connection.collection('test')
+    end
+    
+    it "upsert should update" do
+      id = @collection.save count: 2
+      @collection.upsert!({_id: id}, :$inc => {count: 1})
+      @collection.find(_id: id).first['count'].should == 3
+    end
   
-  it "upsert should set" do
-    id = @coll.save({})
-    @coll.upsert!({_id: id}, :$inc => {count: 1})
-    @coll.find(_id: id).first['count'].should == 1
+    it "upsert should set" do
+      id = @collection.save({})
+      @collection.upsert!({_id: id}, :$inc => {count: 1})
+      @collection.find(_id: id).first['count'].should == 1
+    end
   end
   
   describe "i18n" do
@@ -74,7 +68,7 @@ describe "MongoMapper micelaneous" do
   
   describe "as_string" do
     before do
-      @convertors = MongoMapper::Plugins::Micelaneous::ClassMethods::STRING_CONVERTORS
+      @convertors = MongoMapper::Plugins::AttributeConvertors::ClassMethods::ATTRIBUTE_CONVERTORS
       @convertors[:test_convertor] = {
         from_string: -> s {"from_string: #{s}"},
         to_string:   -> v {"to_string: #{v}"}

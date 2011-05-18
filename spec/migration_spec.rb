@@ -1,8 +1,5 @@
 require 'spec_helper'
 
-require "mongo_mapper_ext"
-require "mongo_mapper_ext/spec"
-
 describe "MongoMapper Migration" do
   with_mongo_mapper
   
@@ -11,8 +8,8 @@ describe "MongoMapper Migration" do
   before :all do
     MongoMapper.logger = Logger.new(nil)
     MongoMapper.db_config = {
-      'global' => {'name' => 'global_test'},
-      'default' => {'name' => "default_test"}
+      'default' => {'name' => "default_test"},
+      'global' => {'name' => 'global_test'}
     }
     
     class ::Sample
@@ -22,17 +19,11 @@ describe "MongoMapper Migration" do
       key :name, String
     end
         
-    # MongoMapper.call_deferred
     Migration.logger = nil        
   end
-
-  after :all do
-    Object.send :remove_const, :Sample if Object.const_defined? :Sample    
-  end
+  after(:all){remove_constants :Sample}
   
-  before do
-    Migration.definitions.clear
-  end
+  before{Migration.definitions.clear}
   
   it "Shouldn't update if versions are the same" do
     Migration.update(:global, 0).should be_false

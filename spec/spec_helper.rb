@@ -1,6 +1,6 @@
 require 'rspec_ext'
 
-gem 'mongo_mapper', '>=0.8'
 require "mongo_mapper"
 
-require 'ruby_ext'
+require "mongo_mapper_ext"
+require "mongo_mapper_ext/spec"
