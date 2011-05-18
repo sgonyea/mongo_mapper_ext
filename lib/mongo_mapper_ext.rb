@@ -1,5 +1,6 @@
 require 'mongo_mapper_ext/gems'
 require 'mongo_mapper'
+require 'carrierwave'
 
 [
   'hacks/fixes',
@@ -15,6 +16,7 @@ require 'mongo_mapper'
   'plugins/default_scope',
   # 'plugins/db_config',  
   'plugins/attributes_cache',
+  'plugins/carrierwave',
   'plugins/micelaneous',  
 ].each do |file|
   require "mongo_mapper_ext/#{file}"
