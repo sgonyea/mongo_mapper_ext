@@ -3,14 +3,14 @@ require 'mongo_mapper'
 
 require 'mongo_mapper_ext/mongo_db'
 
+
 %w(
   fixes
   hacks
   support
   
   migration  
-  view_helpers  
-  logging
+  view_helpers
   
   plugins/attribute_cache
   plugins/attribute_convertors
@@ -24,11 +24,14 @@ require 'mongo_mapper_ext/mongo_db'
 # 
 # Default plugins
 # 
-module MongoMapper::Plugins
-  [CustomScope, AttributeCache, AttributeConvertors, BelongsToWithCounterCache, Micelaneous, DbConfig].each do |plugin|
-    ::MongoMapper::Document.send :include, plugin
-  end
-end
+[
+  MongoMapper::Plugins::CustomScope, 
+  MongoMapper::Plugins::AttributeCache, 
+  MongoMapper::Plugins::AttributeConvertors, 
+  MongoMapper::Plugins::BelongsToWithCounterCache, 
+  MongoMapper::Plugins::Micelaneous, 
+  MongoMapper::Plugins::DbConfig
+].each{|plugin| ::MongoMapper::Document.send :include, plugin}
   
   
 # 

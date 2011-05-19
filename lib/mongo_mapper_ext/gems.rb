@@ -11,7 +11,6 @@ gem 'bson', '1.3.0'
 gem 'bson_ext', '1.3.0'
 gem 'mongo', '1.3.0'
 gem 'plucky', '0.3.6'
-gem 'jnunemaker-validatable', '1.8.4'
 
 gem 'mini_magick',   '3.2.1'
 gem 'subexec',       '0.0.4'
