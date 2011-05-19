@@ -70,6 +70,15 @@ File attachments (stored on File System, S3, MongoDB-GridFS)
 
 Attribute Cache, Spec Helpers (auto-clean db before each test).
 
+# Installation
+
+    gem install 'mongo_mapper_ext'
+    
+    require 'mongo_mapper_ext/mongo_mapper'
+        
+    # support for CarrierWave is optional
+    # require 'mongo_mapper_ext/carrier_wave'
+
 # License
 
 Copyright (c) Alexey Petrushin [http://4ire.net](http://4ire.net), released under the MIT license.

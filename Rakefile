@@ -2,7 +2,7 @@ require 'rake_ext'
 
 project(
   name: "mongo_mapper_ext",
-  version: "0.2.3",
+  version: "0.2.4",
   summary: "Extensions for MongoMapper",
 
   author: "Alexey Petrushin",

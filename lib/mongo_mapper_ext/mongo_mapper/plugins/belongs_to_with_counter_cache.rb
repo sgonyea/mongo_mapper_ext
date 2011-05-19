@@ -9,8 +9,8 @@ module MongoMapper
         # belongs_to :item, counter_cashe: true
         # 
         def belongs_to association_id, options={}, &extension          
-          options.must_not.include :counter_cashe
-          if options.delete(:counter_cache) || options.delete('counter_cache')
+          # options.must_not.include :counter_cashe
+          if options.delete(:counter_cache)
             association_id = association_id.to_s
             association_key = "#{association_id}_id"
             cache_attribute = "#{self.alias.pluralize.underscore}_count"
@@ -19,7 +19,7 @@ module MongoMapper
             else
               association_id.classify.constantize
             end
-            cache_class.keys.must.include cache_attribute            
+            raise "key :#{cache_attribute} not defined on :#{cache_class}!" unless cache_class.keys.include? cache_attribute            
             increase_method_name = "increase_#{cache_class.alias.underscore}_#{self.alias.pluralize.underscore}_counter"
             decrease_method_name = "decrease_#{cache_class.alias.underscore}_#{self.alias.pluralize.underscore}_counter"
 

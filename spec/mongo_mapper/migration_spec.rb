@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'mongo_mapper/spec_helper'
 
 describe "MongoMapper Migration" do
   with_mongo_mapper
@@ -51,7 +51,7 @@ describe "MongoMapper Migration" do
   
     Migration.update(:global, 1).should be_true    
     Sample.count.should == 1
-    Migration.metadata(MongoMapper.databases[:global]).version.should == 1
+    Migration.metadata(MongoMapper.databases[:global])['version'].should == 1
   end
   
   it "decrease_db_version" do    
@@ -64,7 +64,7 @@ describe "MongoMapper Migration" do
   
     Migration.update(:global, 0).should be_true
     Sample.count.should == 0
-    Migration.metadata(MongoMapper.databases[:global]).version.should == 0
+    Migration.metadata(MongoMapper.databases[:global])['version'].should == 0
   end
     
 end

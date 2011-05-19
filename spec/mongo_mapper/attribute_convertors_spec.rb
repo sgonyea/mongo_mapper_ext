@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'mongo_mapper/spec_helper'
 
 describe "Attribute Convertors" do
   with_mongo_mapper

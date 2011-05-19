@@ -1,0 +1,1 @@
+require 'mongo_mapper_ext/mongo_db/upsert'

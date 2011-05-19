@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'mongo_mapper/spec_helper'
 
-describe "MongoMapper Default Scope" do
+describe "BelongsToWithCounterCache" do
   with_mongo_mapper
   
   before :all do
@@ -20,7 +20,7 @@ describe "MongoMapper Default Scope" do
       belongs_to :post, counter_cache: true
     end
   end  
-  after(:all){remove_constants %w{Post Comment Post2 Namespace}}
+  after(:all){remove_constants :Post, :Comment}
   
   it "should increase count of comments" do
     post = Post.create!
@@ -39,32 +39,5 @@ describe "MongoMapper Default Scope" do
     comment.destroy    
     post.reload
     post.comments_count.should == 0
-  end
-  
-  describe "model_name" do
-    it "basic" do
-      Post.model_name.should == "Post"
-      Post.model_name "SuperPost"
-      Post.model_name.should == "SuperPost"
-    end
-    
-    it "by default should be initialized from class alias" do
-      class ::Post2
-        include MongoMapper::Document      
-        include MongoMapper::Plugins::Micelaneous
-
-        self.alias 'PostAlias'
-      end
-      
-      module ::Namespace
-        class Post
-          include MongoMapper::Document      
-          include MongoMapper::Plugins::Micelaneous
-        end
-      end
-      
-      Post2.model_name.should == 'PostAlias'
-      Namespace::Post.model_name.should == 'Post' # not the Namespace::Post
-    end
-  end
+  end  
 end

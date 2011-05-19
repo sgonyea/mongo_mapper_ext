@@ -1,5 +1,4 @@
-require 'spec_helper'
-require "mongo_mapper_ext/rad"
+require 'rad/spec_helper'
 
 describe "Uploading" do  
   with_tmp_spec_dir

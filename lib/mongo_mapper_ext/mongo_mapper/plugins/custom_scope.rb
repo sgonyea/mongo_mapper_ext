@@ -21,7 +21,7 @@ module MongoMapper
         end
         
         def with_exclusive_scope options = {}, &block
-          Thread.current['mm_with_exclusive_scope'].must_be.nil
+          raise "exclusive scope already applied, can't apply it twice!" if Thread.current['mm_with_exclusive_scope']
           
           before = Thread.current['mm_with_exclusive_scope']
           begin
@@ -33,7 +33,7 @@ module MongoMapper
         end
         
         def with_scope options = {}, &block
-          Thread.current['mm_with_exclusive_scope'].must_be.nil
+          raise "exclusive scope already applied, can't apply it twice!" if Thread.current['mm_with_exclusive_scope']
           
           before = Thread.current['mm_with_scope']
           begin
@@ -47,7 +47,7 @@ module MongoMapper
         
         protected
           def default_scope options = nil, &block          
-            options.must_be.a NilClass, Hash
+            raise "invalid option (#{options.inspect})!" if options and !options.is_a?(Hash)
             self.write_inheritable_attribute(:default_scope, (options || block))
           end
                   

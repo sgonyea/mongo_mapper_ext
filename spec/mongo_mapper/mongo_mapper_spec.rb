@@ -1,4 +1,4 @@
-require 'mongo_mapper'
+require 'mongo_mapper/spec_helper'
 
 describe "Special test to check some errors in the MongoMapper itself" do  
   before :all do

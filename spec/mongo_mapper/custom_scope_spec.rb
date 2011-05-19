@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'mongo_mapper/spec_helper'
 
 describe "MongoMapper Default Scope" do
   with_mongo_mapper
@@ -72,13 +72,13 @@ describe "MongoMapper Default Scope" do
       ScopeSample.with_exclusive_scope do
         ScopeSample.with_exclusive_scope{}
       end
-    }.should raise_error(AssertionError)
+    }.should raise_error(/exclusive scope already applied/)
     
     -> {
       ScopeSample.with_exclusive_scope do
         ScopeSample.with_scope{}
       end
-    }.should raise_error(AssertionError)
+    }.should raise_error(/exclusive scope already applied/)
   end
       
   it "with_exclusive_scope should clear other scopes" do

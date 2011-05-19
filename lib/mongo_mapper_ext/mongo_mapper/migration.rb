@@ -41,7 +41,7 @@ module MongoMapper::Migration
     def define database_alias, version, &block
       database_alias = database_alias.to_s
       
-      version.must_be.a Integer
+      raise "version should be an Integer! (but you provided '#{version}' instad)!" unless version.is_a? Integer
       definition = MigrationDefinition.new
       block.call definition
       definitions[database_alias][version] = definition
@@ -51,21 +51,21 @@ module MongoMapper::Migration
       database_alias = database_alias.to_s
       db = MongoMapper.databases[database_alias]
       
-      if metadata(db).version == version
+      if metadata(db)['version'] == version
         logger.info "Database '#{database_alias}' already is of #{version} version, no migration needed."
         return false
       else
         logger.info "Migration for '#{database_alias}' Database:"
       end
       
-      increase_db_version database_alias, db while metadata(db).version < version
-      decrease_db_version database_alias, db while metadata(db).version > version
+      increase_db_version database_alias, db while metadata(db)['version'] < version
+      decrease_db_version database_alias, db while metadata(db)['version'] > version
       true
     end
         
     def metadata db
       col = db.collection 'db_metadata'
-      metadata = (col.find_one || {version: 0}).to_openobject
+      col.find_one || {'version' => 0}
     end
     
     def definitions
@@ -75,28 +75,28 @@ module MongoMapper::Migration
     protected
       def increase_db_version database_alias, db    
         m = metadata(db)
-        migration = definitions[database_alias][m.version + 1]        
-        raise "No upgrade for version #{m.version + 1} of '#{database_alias}' Database!" unless migration and migration.up
+        migration = definitions[database_alias][m['version'] + 1]        
+        raise "No upgrade for version #{m['version'] + 1} of '#{database_alias}' Database!" unless migration and migration.up
         
         migration.up.call db
         
-        m.version += 1        
+        m['version'] += 1        
         update_metadata db, m
         
-        logger.info "Database '#{database_alias}' upgraded to version #{m.version}."
+        logger.info "Database '#{database_alias}' upgraded to version #{m['version']}."
       end
       
       def decrease_db_version database_alias, db
         m = metadata(db)
-        migration = definitions[database_alias][m.version]        
-        raise "No downgrade for version #{m.version} of '#{database_alias}' Database!" unless migration and migration.down
+        migration = definitions[database_alias][m['version']]        
+        raise "No downgrade for version #{m['version']} of '#{database_alias}' Database!" unless migration and migration.down
         
         migration.down.call db
         
-        m.version -= 1
+        m['version'] -= 1
         update_metadata db, m
         
-        logger.info "Database '#{database_alias}' downgraded to version #{m.version}."
+        logger.info "Database '#{database_alias}' downgraded to version #{m['version']}."
       end
 
       
