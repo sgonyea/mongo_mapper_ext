@@ -63,7 +63,7 @@ For editing complex objects in forms:
 File attachments (stored on File System, S3, MongoDB-GridFS)
 
     class User
-      mount_uploader :avatar, AvatarUploader
+      file_key :avatar, AvatarUploader
     end
     
 ## more

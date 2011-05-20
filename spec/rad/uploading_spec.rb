@@ -15,7 +15,7 @@ describe "Uploading" do
       key :name
       validates_uniqueness_of :name
       
-      mount_uploader :image, ShipUploader
+      file_key :image, ShipUploader
     end                
   end  
   after(:all){remove_constants :Ship, :ShipUploader}  

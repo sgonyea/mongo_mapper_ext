@@ -1,14 +1,12 @@
 # 
-# mount_uploader
+# file_key
 # 
 module MongoMapper::Plugins::CarrierWave
   extend ActiveSupport::Concern
   
   module ClassMethods
     include ::CarrierWave::Mount
-    ##
-    # See +CarrierWave::Mount#mount_uploader+ for documentation
-    #
+
     def mount_uploader(column, uploader, options={}, &block)
       define_key column, uploader, options
 
@@ -26,6 +24,9 @@ module MongoMapper::Plugins::CarrierWave
       before_save "write_#{column}_identifier".to_sym
       after_destroy "remove_#{column}!".to_sym
     end
+    alias_method :file_key, :mount_uploader
+    
+    
     
     protected
       def define_key column, uploader, options

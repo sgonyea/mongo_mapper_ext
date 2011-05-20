@@ -33,7 +33,7 @@ describe "MongoMapper & CarrierWave" do
     class Plane
       include MongoMapper::Document
   
-      mount_uploader :image, PlaneUploader
+      file_key :image, PlaneUploader
     end        
   end
   after(:all){remove_constants :Plane, :PlaneUploader}
