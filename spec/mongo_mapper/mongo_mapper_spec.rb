@@ -1,38 +1,14 @@
-require 'mongo_mapper/spec_helper'
+require 'mongo_mapper'
 
-describe "Special test to check some errors in the MongoMapper itself" do  
+describe "Special test to check some errors in the MongoMapper" do  
   before :all do
     MongoMapper.database = 'test'
-    
-    class ::AnObject
-      include MongoMapper::Document
-      
-      key :owner_name, String
-      key :viewers, Array
-      
-      def owner_name= owner_name
-        viewers.delete self.owner_name
-        viewers << owner_name        
-        # write_attribute :owner_name, owner_name
-        super owner_name
-        owner_name
-      end
-    end
   end
   
   after :all do
-    Object.send :remove_const, :AnObject, :Plane, :PlaneImage if Object.const_defined? :AnObject
+    Object.send :remove_const, :Plane, :PlaneImage if Object.const_defined? :AnObject
   end
-    
-  it 'a very old bug, probably fixed by now' do
-    o = AnObject.new
-    o.owner_name = 'user'
-    o.save!
-    
-    # o = AnObject.first # don't use reload, it willn't catch this error
-    o.viewers.should == %w{user}
-  end
-  
+      
   it "strange behaviour of EmbeddedDocument" do
     class PlaneImage
       include MongoMapper::EmbeddedDocument
