@@ -14,32 +14,23 @@ describe "Special test to check some errors in the MongoMapper" do
       include MongoMapper::EmbeddedDocument
       
       key :text, String
-      # alias_method :original_text=, :text=
-      # def text= text
-      #   $id_before_save = object_id
-      #   self.original_text = text
-      # end      
-      
-      before_save do
-        p self
+      alias_method :original_text=, :text=
+      def text= text
+        $id_before_save = object_id
+        self.original_text = text
       end
       
       after_save do
-        p self
+        $id_after_save = object_id
       end
-      
-      # after_save :check_my_id
-      # def check_my_id
-      #   $id_after_save = object_id
-      # end
     end
     
     class ThePost
       include MongoMapper::Document
-      has_many :images, class_name: 'PlaneImage'
+      has_many :comments, class_name: 'TheComment'
     end    
     
-    Plane.create! images: [PlaneImage.new(data: 'some image')]
-    # $id_before_save.should == $id_after_save
+    ThePost.create! comments: [TheComment.new(text: 'some text')]
+    $id_before_save.should == $id_after_save
   end
 end
