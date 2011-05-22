@@ -24,7 +24,7 @@ describe "Special test to check some errors in the MongoMapper itself" do
     Object.send :remove_const, :AnObject, :Plane, :PlaneImage if Object.const_defined? :AnObject
   end
     
-  it 'old bug, probably fixed by now' do
+  it 'a very old bug, probably fixed by now' do
     o = AnObject.new
     o.owner_name = 'user'
     o.save!
