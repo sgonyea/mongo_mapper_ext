@@ -1,14 +1,16 @@
 # 
-# file_key
+# mount_uploader
 # 
-module MongoMapper::Plugins::CarrierWave
+module MongoMapper::Plugins::MountUploader
   extend ActiveSupport::Concern
   
   module ClassMethods
     include ::CarrierWave::Mount
 
     def mount_uploader(column, uploader, options={}, &block)
-      define_key column, uploader, options
+      options[:mount_on] ||= "#{column}_filename"
+      name = options[:mount_on]
+      key name
 
       super
 
@@ -25,14 +27,5 @@ module MongoMapper::Plugins::CarrierWave
       after_destroy "remove_#{column}!".to_sym
     end
     alias_method :file_key, :mount_uploader
-    
-    
-    
-    protected
-      def define_key column, uploader, options
-        options[:mount_on] ||= "#{column}_filename"
-        name = options[:mount_on]
-        key name
-      end
   end
 end

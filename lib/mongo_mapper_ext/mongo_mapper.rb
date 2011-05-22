@@ -45,5 +45,5 @@ end
 # 
 # Locales
 # 
-dir = __FILE__.dirname
-I18n.load_path += Dir["#{dir}/mongo_mapper/locales/**/*.{rb,yml}"]
+dir = File.expand_path "#{__FILE__}/../../.."
+I18n.load_path += Dir["#{dir}/config/locales/**/*.{rb,yml}"]
