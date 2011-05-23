@@ -48,7 +48,7 @@ describe "MongoMapper & CarrierWave" do
     end
     after(:all){remove_constants :Plane}
   
-    it "basic", focus: true do
+    it "basic" do
       plane = Plane.create! image: @file
       plane.image.current_path.should =~ /\/plane.jpg/
       File.should exist("#{spec_dir}/data/plane.jpg")
@@ -102,19 +102,15 @@ describe "MongoMapper & CarrierWave" do
     end
     after(:all){remove_constants :Plane, :PlaneImage, :PlaneImageUploader}
   
-    it "basic", focus: true do      
-      plane = Plane.create! images: [PlaneImage.new(image: @file).freeze]
-      plane.images.first.image.current_path.should =~ /\/plane.jpg/
-      File.should exist("#{spec_dir}/data/plane.jpg")
-    end
+    it "basic"
+    # do
+    #   plane = Plane.create! images: [PlaneImage.new(image: @file)]
+    #   plane.images.first.image.current_path.should =~ /\/plane.jpg/
+    #   File.should exist("#{spec_dir}/data/plane.jpg")
+    # end
   
-    it "path format" do
-      plane = Plane.create! image: @file
-      plane.image.url.should == '/plane.jpg'
-      plane.image.icon.url.should =~ /\/plane\.icon\.jpg/
-    
-      plane.image.icon.current_path.should =~ /\/plane\.icon\.jpg/
-      File.should exist("#{spec_dir}/data/plane.icon.jpg")
-    end
+    it "path format"
+    # do
+    # end
   end
 end
