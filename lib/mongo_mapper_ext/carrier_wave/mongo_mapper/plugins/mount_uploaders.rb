@@ -59,7 +59,7 @@
 #     end
 # 
 #     def get_uploaders attr_name
-#       # self.tags = tag_list.split(Tag::TAG_LIST_DELIMITER).collect{|name| name.strip}.sort
+#       # self.tags = tags_as_string.split(Tag::TAG_LIST_DELIMITER).collect{|name| name.strip}.sort
 #     end
 # 
 #     after_save :update_tags
